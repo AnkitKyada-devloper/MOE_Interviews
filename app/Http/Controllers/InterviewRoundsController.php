@@ -34,7 +34,7 @@ class InterviewRoundsController extends Controller
         return response()->json(['code' => 200,'message'=> 'Registration  is Success'],200);
    }
 
-    catch (Exception $e) 
+    // catch (Exception $e) 
     {
             return response()->json([
                 'code' => 500,
