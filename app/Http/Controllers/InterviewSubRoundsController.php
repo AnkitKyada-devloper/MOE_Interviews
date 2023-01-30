@@ -41,6 +41,7 @@ class InterviewSubRoundsController extends Controller
    
     public function get_all($is_active=null)
     {
+        //
         try{
      // $query=InterviewSubRounds::with('user');  
      $query=InterviewSubRounds::join('Interview_rounds as ir','ir.id','=' , 'interview_sub_rounds.round_id')
