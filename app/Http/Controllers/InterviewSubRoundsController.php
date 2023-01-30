@@ -38,7 +38,7 @@ class InterviewSubRoundsController extends Controller
              ], 500);
         }
     }
-    //
+   
     public function get_all($is_active=null)
     {
         try{
