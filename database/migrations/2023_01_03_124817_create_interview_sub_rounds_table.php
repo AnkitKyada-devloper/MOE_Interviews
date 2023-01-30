@@ -17,7 +17,7 @@ return new class extends Migration
     {
         Schema::create('interview_sub_rounds', function (Blueprint $table) {
             $table->uuid('id')->nullable(false)->primary();
-            $table->uuid('role_id');
+            $table->uuid('round_id');
             $table->string('name',250);
             $table->text('description')->nullable();
             $this->Column_migration($table);

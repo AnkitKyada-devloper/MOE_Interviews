@@ -15,5 +15,32 @@ class InterviewRounds extends Model
     protected $table = 'interview_rounds';
     protected $primarykey = 'id';
 
-    protected $fillable = ['name','description'];
+    protected $fillable = ['id','name','description'];
+
+    // public function comments()
+    // {
+    //     return $this->hasMany(InterviewSubRounds::class);
+    // }
+    public static function add_update($request,$id)
+    {
+        if($id){
+            $interview = InterviewRounds::find($id);
+            $code = 201;
+            $message='Update';
+
+        }else{
+            $round = new  InterviewRounds;
+            $code = 200;
+            $message='Insert';
+        }
+        $interview->name=$request->name;
+        $interview->description=$request->description;
+        $interview->is_active=$request->is_active;
+        $interview->created_by  = Auth::user()->id;
+        $interview->updated_by  = Auth::user()->id;
+        $interview->save();
+        return [$code,$message];
+
+    }
+
 }

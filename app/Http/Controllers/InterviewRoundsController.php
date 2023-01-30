@@ -4,19 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\InterviewRounds;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class InterviewRoundsController extends Controller
 {
-    public function interview(Request $request)
+    public function interview(Request $request,$id=null)
     {
    
      try{
         $validated = Validator::make($request->all(),[
             'name' => 'required',
-            'description' => 'nullable'
+            'description' => 'nullable',
+            'is_active' => 'required'
         ]);
-       
         if($validated->fails())
         {
             return response()->json([
@@ -24,17 +25,12 @@ class InterviewRoundsController extends Controller
                  'message' => $validated->errors(),
                ], 404);
         }
-         
-        $interview = new InterviewRounds;
-        $interview->name=$request->name;
-        $interview->description=$request->description;
-        $interview->created_by  = Auth::user()->id;
-        $interview->updated_by  = Auth::user()->id;
-        $interview->save();
-        return response()->json(['code' => 200,'message'=> 'Registration  is Success'],200);
-   }
+       
+        list($code,$message)=InterviewRounds::add_update($request,$id);
+        return response()->json(['code' => $code,'message'=> ' Successfully..'. $message],200);
+        }
 
-    // catch (Exception $e) 
+    catch (Exception $e) 
     {
             return response()->json([
                 'code' => 500,
@@ -42,4 +38,19 @@ class InterviewRoundsController extends Controller
             ], 500);
         }
     }
+    public function get_by_id($id)
+    {
+        try{
+            $data=InterviewRounds::where('id',$id)->get();
+            return response()->json(['message'=> 'Successfully','info'=> $data ],200);
+
+        }catch (Exception $e) 
+        {
+            return response()->json([
+                'code' => 500,
+                'message' => 'Error',
+            ], 500);
+        }
+    }
+    
 }

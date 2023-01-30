@@ -3,31 +3,44 @@
 namespace App\Http\Controllers;
 use App\Models\Institutes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class InstitutesController extends Controller
 {
-    public function add(Request $request){
-
-        $institute= new Institutes;
-        $institute->institute_name  = $request->institute_name;
-        $institute->email  = $request->email;
-        $institute->phone_number  = $request->phone_number;
-        $institute->address_line_1  = $request->address_line_1;
-        $institute->address_line_2  = $request->address_line_2;
-        $institute->address_line_3  = $request->address_line_3;
-        $institute->city  = $request->city;
-        $institute->state  = $request->state;
-        $institute->country  = $request->country;
-        $institute->pincode  = $request->pincode;
-        $institute->other_infomation  = $request->other_infomation;
-        $institute->created_by  = Auth::user()->id;
-        $institute->updated_by  = Auth::user()->id;
-        $institute->save();
-    
-    
-    
+    public function add(Request $request ,$id=null)
+    {
+        try{
+            $validated = Validator::make($request->all(),[
+           'institute_name' => 'required|unique:institutes',
+           'email' => 'required|unique:institutes',
+           'phone_number'=>'required',
+           'address_line_1'=>"required",
+           'address_line_2'=>"nullable",
+           'address_line_3'=>"nullable",
+           'city'=>"required",
+           'state'=>"required",
+           'country'=>"required",
+           'pincode'=>"required",
+           'other_info'=>"nullable"
+       ]);
+        
+       if($validated->fails())
+       {
+           return response()->json([
+                'code' => 404,
+                'message' => $validated->errors(),
+              ], 404);
+       }
+       
+       list($code,$message)=Institutes::add_update($request,$id);
+        return response()->json(['code' => $code,'message'=> 'Successfully..' . $message],200);
+        }catch (Exception $e) 
+        {
+             return response()->json([
+                'code' => 500,
+                 'message' => 'Error',
+             ], 500);
         }
-    
-    
-
+} 
 }
