@@ -19,33 +19,60 @@ class Institutes extends Model
 
     protected $fillable=['institute_name','email','phone_number','address_line_1','address_line_2','address_line_3','city','state','country','pincode','other_infomation'];
 
-    public static function add_update($request, $id=null){
+    public static function add_updated($data,$id){
         if($id){
-            $institute = Institutes::find($id);
+            $institute=Institutes::find($id);
             $code = 200;
-            $message='Update institutes Data';
-    
-             }else{
-            $institute = new Institutes;
+            $message = 'Configurations Data Update';        
+        }else{
+            $institute=new Institutes; 
             $code = 200;
-            $message='Insert institutes Data ';
-             }
-           
-                $institute->institute_name  = $request->institute_name;
-                $institute->email  = $request->email;
-                $institute->phone_number  = $request->phone_number;
-                $institute->address_line_1  = $request->address_line_1;
-                $institute->address_line_2  = $request->address_line_2;
-                $institute->address_line_3  = $request->address_line_3;
-                $institute->city  = $request->city;
-                $institute->state  = $request->state;
-                $institute->country  = $request->country;
-                $institute->pincode  = $request->pincode;
-                $institute->other_info  = $request->other_info;
-                $institute->created_by  = Auth::user()->id;
-                $institute->updated_by  = Auth::user()->id;
+            $message = 'Configurations Data Insert';
+        }
+            //    $institute = new Institutes;
+                $institute->institute_name = $data['institute_name'];
+                $institute->email = $data['email'];
+                $institute->phone_number = $data['phone_number'];
+                $institute->address_line_1 = $data['address_line_1'];
+                $institute->address_line_2 = $data['address_line_2'];
+                $institute->address_line_3 = $data['address_line_3'];
+                $institute->city = $data['city'];
+                $institute->state = $data['state'];
+                $institute->country = $data['country'];
+                $institute->pincode = $data['pincode'];
+                $institute->other_info = $data['other_info'];
+                $institute->created_by = Auth::user()->id;
+                $institute->updated_by = Auth::user()->id;
                 $institute->save();
-                return [$code,$message];
+                return  $id = $institute->id;
+                
     }
-}
+    
+        // public static function institute_add_updated($data,$id){
+        //         if($id){
+        //             $institute=Institutes::find($id);
+        //             $code = 200;
+        //             $message = 'Configurations Data Update';        
+        //         }else{
+        //             $institute=new Institutes; 
+        //             $code = 200;
+        //             $message = 'Configurations Data Insert';
+        //         }
+        //         $institute->institute_name = $data['institute_name'];
+        //         $institute->email = $data['email'];
+        //         $institute->phone_number = $data['phone_number'];
+        //         $institute->address_line_1 = $data['address_line_1'];
+        //         $institute->address_line_2 = $data['address_line_2'];
+        //         $institute->address_line_3 = $data['address_line_3'];
+        //         $institute->city = $data['city'];
+        //         $institute->state = $data['state'];
+        //         $institute->country = $data['country'];
+        //         $institute->pincode = $data['pincode'];
+        //         $institute->other_info = $data['other_info'];
+        //         $institute->created_by = Auth::user()->id;
+        //         $institute->updated_by = Auth::user()->id;
+        //         $institute->save();
+        //         return [$code , $message];
+        //     }
+            }
 

@@ -10,6 +10,48 @@ use Illuminate\Support\Facades\Validator;
 class ConfigurationsController extends Controller
 {
 
+    public function add_update(Request $request,$id=null)
+    {
+        $validated = Validator::make($request->all(),[
+            'conf_key' => 'required',
+            'conf_value'=> 'required',
+            'display_text'=>'required',
+            'description' => 'nullable',
+            'display_order'=>'required',
+            'is_active'=>'required'
+        ]);
+        
+        if($validated->fails())
+        {
+            return response()->json(['code' => 422,'message' => $validated->errors()], 422);
+        }
+
+        try{
+           list($code,$message)=Configurations::add($request,$id);
+           return response()->json(['code' => $code,'message'=> ' Successfully..'. $message],200);
+
+        }catch (Exception $e) 
+        {
+            return response()->json(['code' => 500,'message' => 'Error'], 500);
+        }
+    }
+    public function delete($id)
+    {
+        try{
+
+            $remove=Configurations::find($id);
+            if($remove){
+                $remove->delete();
+             return response()->json(['code' => 200,'message' => 'Successfully !..Configurations Data Delete'], 200);
+        }else{
+            return response()->json(['code' => 404,'message' => 'Error'], 404);
+        }
+        }catch (Exception $e) 
+        {
+            return response()->json(['code' => 500,'message' => 'Error'], 500);
+        }
+    }
+
     public function get_all($is_active=null)
     {
      try{
@@ -76,5 +118,18 @@ class ConfigurationsController extends Controller
             {
                 return response()->json(['code' => 500,'message' => 'Error'], 500);
             }
+    }
+    public function change_cong($id,$is_active)
+    {
+        try{
+            $title= Configurations::find($id);
+            $title->is_active=$is_active;
+            $title->save();
+            return response()->json(['code' => 200,'message' => 'Successfully !..Configurations Data Update'], 200);
+
+        }catch (Exception $e) 
+        {
+            return response()->json(['code' => 500,'message' => 'Error'], 500);
+        }
     }
 }

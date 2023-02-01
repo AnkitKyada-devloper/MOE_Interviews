@@ -28,15 +28,24 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/verifylogin',[UsersController::class,'login']);
 Route::post('/registeruser',[UsersController::class,'register']);
 
+Route::post('/configurations',[ConfigurationsController::class,'add_update']);
+Route::post('/configurations/{id}',[ConfigurationsController::class,'add_update']);
+Route::get('/configurations/delete/{id}',[ConfigurationsController::class,'delete']);
 Route::get('/configurations/get_all/{is_active?}',[ConfigurationsController::class,'get_all']);
 Route::get('/configurations/get_by_id/{id}',[ConfigurationsController::class,'get_by_id']);
 Route::get('/configurations/get_conf_key1/{conf_key?}',[ConfigurationsController::class,'get_conf_key']);
 Route::get('/configurations/get_conf_key/{conf_key}/{conf_value?}',[ConfigurationsController::class,'get_conf_value']);
+Route::get('/configurations/active_change/{id}/{is_active?}',[ConfigurationsController::class,'change_cong']);
 
-Route::post('/institute',[InstitutesController::class,'add_update']);
-Route::post('/institute/{id}',[InstitutesController::class,'add_update']);
+
+// Route::post('/institute',[InstitutesController::class,'institute_add_update']);
+// Route::post('/institute/{id}',[InstitutesController::class,'institute_add_update']);
+
+Route::post('/institute/user',[InstitutesController::class,'institute']);
+
 Route::get('/institute/get_all/{is_active?}',[InstitutesController::class,'get_all']);
 Route::get('/institute/get_by_id/{id}',[InstitutesController::class,'get_by_id']);
+Route::get('/institute/delete/{id}',[InstitutesController::class,'delete_institutes']);
 
 Route::post('/interviewrounds',[InterviewRoundsController::class,'interview']);
 Route::post('/interviewrounds/{id}',[InterviewRoundsController::class,'interview']);
@@ -47,6 +56,7 @@ Route::get('/interviewround/active_change/{id}/{is_active}',[InterviewRoundsCont
 
 Route::post('/interviewsubround',[InterviewSubRoundsController::class,'subround']);
 Route::post('/interviewsubround/{id}',[InterviewSubRoundsController::class,'subround']);
+Route::get('/interviewsubround/get_by_round/{round_id}',[InterviewSubRoundsController::class,'round_id']);
 Route::get('/interviewsubround/get_all/{is_active?}',[InterviewSubRoundsController::class,'get_all']);
 Route::get('/interviewsubround/get_by_id/{id}',[InterviewSubRoundsController::class,'get_by_id']);
 Route::get('/interviewsubround/delete/{id}',[InterviewSubRoundsController::class,'deletesubround']);

@@ -67,7 +67,7 @@ class InterviewSubRoundsController extends Controller
                 $deletedata->delete();
                 return response()->json(['code' => 200,'message' => 'Successfully !..InterviewSubRounds Data Delete'], 200);
             }else{
-                return response()->json(['code' => 400,'message' => 'Error'], 400);
+                return response()->json(['code' => 404,'message' => 'Error'], 404);
             }
         }catch (Exception $e) 
         {
@@ -80,8 +80,18 @@ class InterviewSubRoundsController extends Controller
             $title= InterviewSubRounds::find($id);
             $title->is_active=$is_active;
             $title->save();
-            return response()->json(['code' => 200,'message' => 'Successfully !..Job_titles Data Update'], 200);
+            return response()->json(['code' => 200,'message' => 'Successfully !..InterviewSubRounds Data Update'], 200);
 
+        }catch (Exception $e) 
+        {
+            return response()->json(['code' => 500,'message' => 'Error'], 500);
+        }
+    }
+    public function round_id($round_id)
+    {
+        try{
+            $roundid=InterviewSubRounds::where('round_id',$round_id)->get();
+            return response()->json(['message'=> 'Successfully','info'=> $roundid ],200);
         }catch (Exception $e) 
         {
             return response()->json(['code' => 500,'message' => 'Error'], 500);

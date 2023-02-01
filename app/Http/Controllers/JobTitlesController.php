@@ -70,7 +70,7 @@ class JobTitlesController extends Controller
               $deletedata->delete();
                 return response()->json(['code' => 200,'message' => 'Successfully !..Job_titles Data Delete'], 200);
             }else{   
-              return response()->json(['code' => 400,'message' => 'Error'], 400);
+              return response()->json(['code' => 404,'message' => 'Error'], 404);
             }
             }catch (Exception $e) 
         {
