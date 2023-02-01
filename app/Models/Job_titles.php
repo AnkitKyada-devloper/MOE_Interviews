@@ -20,13 +20,13 @@ class Job_titles extends Model
     {
         if($id){
             $title = Job_titles::find($id);
-            $code = 201;
-            $message='Update';
+            $code = 200;
+            $message='Update Job_titles Data';
     
                 }else{
             $title = new Job_titles;
             $code = 200;
-            $message='Insert';
+            $message='Insert Job_titles Data';
                 }
             
             $title->name=$request->name;

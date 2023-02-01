@@ -20,37 +20,75 @@ class InterviewRoundsController extends Controller
         ]);
         if($validated->fails())
         {
-            return response()->json([
-                 'code' => 404,
-                 'message' => $validated->errors(),
-               ], 404);
+            return response()->json(['code' => 422,'message' => $validated->errors()], 422);
         }
        
         list($code,$message)=InterviewRounds::add_update($request,$id);
         return response()->json(['code' => $code,'message'=> ' Successfully..'. $message],200);
         }
 
-    catch (Exception $e) 
-    {
-            return response()->json([
-                'code' => 500,
-                'message' => 'Error',
-            ], 500);
+        catch (Exception $e) 
+        {
+            return response()->json(['code' => 500,'message' => 'Error'], 500);
         }
     }
+    public function get_all($is_active=null)
+    {
+
+     try{
+        $query=InterviewRounds::select('id','name','description','is_active');
+        
+        if($is_active==1){
+            $data =$query->where('interview_rounds.is_active',1)->get();
+        }else{
+            $data =$query->get();
+        }
+        return response()->json(['message'=> 'Successfully','info'=> $data ],200);
+
+    }catch (Exception $e) 
+        {
+            return response()->json(['code' => 500,'message' => 'Error'], 500);
+        }
+    }
+
     public function get_by_id($id)
     {
         try{
-            $data=InterviewRounds::where('id',$id)->get();
-            return response()->json(['message'=> 'Successfully','info'=> $data ],200);
+            $getdata=InterviewRounds::where('id',$id)->get();
+            return response()->json(['message'=> 'Successfully','info'=> $getdata ],200);
 
         }catch (Exception $e) 
         {
-            return response()->json([
-                'code' => 500,
-                'message' => 'Error',
-            ], 500);
+            return response()->json(['code' => 500,'message' => 'Error'], 500);
         }
     }
-    
+    public function deleteround($id)
+    {
+        try{
+            $deleterounddata=InterviewRounds::find($id);
+            if($deleterounddata)
+            {
+                $deleterounddata->delete();
+                return response()->json(['code' => 200,'message' => 'Successfully !..InterviewRounds Data Delete'], 200);
+            }else{
+                return response()->json(['code' => 400,'message' => 'Error'], 400);
+            }
+        }catch(Exception $e) 
+        {
+            return response()->json(['code' => 500,'message' => 'Error'], 500);
+        }
+    }
+    public function active_change_rounds($id,$is_active)
+    {
+        try{
+            $title= InterviewRounds::find($id);
+            $title->is_active=$is_active;
+            $title->save();
+            return response()->json(['code' => 200,'message' => 'Successfully !..Job_titles Data Update'], 200);
+
+        }catch (Exception $e) 
+        {
+            return response()->json(['code' => 500,'message' => 'Error'], 500);
+        }
+    }
 }

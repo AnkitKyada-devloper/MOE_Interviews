@@ -23,11 +23,7 @@ class UsersController extends Controller
        
         if($validated->fails())
         {
-            return response()->json(
-               [
-                 'code' => 404,
-                 'message' => $validated->errors(),
-                 ], 404);
+            return response()->json(['code' => 422,'message' => $validated->errors()], 422);
         }
 
         $users=Users::where('email',$request->email)->where('is_active',1)->first();
@@ -68,14 +64,9 @@ class UsersController extends Controller
         else{
             return response()->json(['code' => 404,'message'=> 'Email is Incorrect'],404);
     }
-    }
-            catch (Exception $e) 
+    }catch (Exception $e) 
             {
-                    return response()->json(
-                    [
-                        'code' => 500,
-                        'message' => 'Error',
-                    ], 500);
+                return response()->json(['code' => 500,'message' => 'Error'], 500);
             }
                 
     }
@@ -99,11 +90,7 @@ class UsersController extends Controller
     
         if($validate->fails())
         {
-            return response()->json(
-               [
-                 'code' => 404,
-                 'message' => $validate->errors(),
-                 ], 404);
+            return response()->json(['code' => 422,'message' => $validate->errors()], 422);
         }
          
          $user = new Users;
@@ -121,15 +108,9 @@ class UsersController extends Controller
          $user->save();
 
          return response()->json(['code' => 200,'message'=> 'Registration  is Success'],200);
-      }
-       
-      catch(Exception $e) 
+      }catch(Exception $e) 
         {
-            return response()->json(
-            [
-                'code' => 500,
-                'message' => 'Error',
-            ], 500);
+            return response()->json(['code' => 500,'message' => 'Error'],500);
         }
   
     }

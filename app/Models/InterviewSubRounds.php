@@ -26,13 +26,13 @@ class InterviewSubRounds extends Model
         
         if($id){
         $round = InterviewSubRounds::find($id);
-        $code = 201;
-        $message='Update';
+        $code = 200;
+        $message='Update InterviewSubRounds Data';
 
          }else{
         $round = new InterviewSubRounds;
         $code = 200;
-        $message='Insert';
+        $message='Insert InterviewSubRounds Data';
          }
        
         $round->round_id=$request->round_id;

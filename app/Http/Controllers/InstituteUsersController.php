@@ -17,19 +17,11 @@ class InstituteUsersController extends Controller
        
         if($validated->fails())
         {
-            return response()->json([
-                 'code' => 404,
-                 'message' => $validated->errors(),
-               ], 404);
+            return response()->json(['code' => 422,'message' => $validated->errors()], 422);
         }
-
-
     } catch (Exception $e) 
     {
-            return response()->json([
-                'code' => 500,
-                'message' => 'Error',
-            ], 500);
-        }
+        return response()->json(['code' => 500,'message' => 'Error'], 500);
+    }
     }
 }

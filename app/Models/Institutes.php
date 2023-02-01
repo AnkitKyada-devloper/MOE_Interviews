@@ -22,13 +22,13 @@ class Institutes extends Model
     public static function add_update($request, $id=null){
         if($id){
             $institute = Institutes::find($id);
-            $code = 201;
-            $message='Update';
+            $code = 200;
+            $message='Update institutes Data';
     
              }else{
             $institute = new Institutes;
             $code = 200;
-            $message='Insert';
+            $message='Insert institutes Data ';
              }
            
                 $institute->institute_name  = $request->institute_name;

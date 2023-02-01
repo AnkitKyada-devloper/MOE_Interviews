@@ -25,13 +25,13 @@ class InterviewRounds extends Model
     {
         if($id){
             $interview = InterviewRounds::find($id);
-            $code = 201;
-            $message='Update';
+            $code = 200;
+            $message='Update InterviewRounds Data';
 
         }else{
             $round = new  InterviewRounds;
             $code = 200;
-            $message='Insert';
+            $message='Insert InterviewRounds Data';
         }
         $interview->name=$request->name;
         $interview->description=$request->description;
